@@ -1,0 +1,3 @@
+#!/bin/bash
+#start the test runner
+php test.php $@

@@ -1,0 +1,13 @@
+{
+	"endpoints": [
+		"EndpointName1",
+		"EndpointName2"
+	],
+	"comments": [
+		"If endpoints are specified in the endpoints arrary, all tests in that endpoint will be skipped.",
+		"For specific actions to skip, add them to the actions array."
+	],
+	"actions": [
+		"actionToSkip"
+	]
+}

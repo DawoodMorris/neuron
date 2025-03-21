@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * Validator: InvalidValidator
+ * Contract: Validates InvalidValidator action inputs
+ * Required Data: What this validators expected to complete the required validation is defined in each validator method
+ * Documentation: https://docs.techxdyanmics/docs/wms/validators/InvalidValidator
+ * */
+class InvalidValidator {
+	private object $data;
+	private object $results;
+	function __construct(object $data) {
+		$this->data = $data;
+		$this->results = new stdClass;
+		$this->results->valid = false;
+		$this->results->error = 'invalidInput';
+	}
+
+	/**
+	 * Invalid validator action supplied
+	 * @return (object) The results
+	 **/
+	public function invalidValidatorAction(): object {
+		$this->results->error = 'invalidValidatorAction';
+		return $this->results;
+	}
+}
