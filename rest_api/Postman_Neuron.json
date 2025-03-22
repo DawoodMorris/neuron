@@ -1,0 +1,133 @@
+{
+  "info": {
+    "name": "Neuron",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Ping",
+      "event": [],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8000",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "Test -> Test",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "apikey",
+            "value": "hc6W6#StFyk*NBAO$>VwTY03caE+9S$I)q!B*cQ//b]th$n",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8000",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"endpoint\": \"Test\",\n  \"payload\": {\n    \"action\": \"test\",\n    \"data\": {\n      \"info\": {\n        \"client\": \"Bruno\",\n        \"version\": \"0.1\"\n      }\n    }\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "bruno",
+      "event": []
+    },
+    {
+      "name": "Test -> Ping",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "apikey",
+            "value": "hc6W6#StFyk*NBAO$>VwTY03caE+9S$I)q!B*cQ//b]th$n",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8000",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"endpoint\": \"Test\",\n  \"payload\": {\n    \"action\": \"ping\",\n    \"data\": {\n      \n    }\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "UserRequests -> Fetch Quick Stats",
+      "event": [],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "apikey",
+            "value": "hc6W6#StFyk*NBAO$>VwTY03caE+9S$I)q!B*cQ//b]th$n",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8000",
+          "host": [
+            "localhost"
+          ],
+          "path": [],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"endpoint\": \"UserRequests\",\n  \"payload\": {\n    \"action\": \"fetchQuickStats\",\n    \"data\": {\n      \"publicRequest\": true\n    }\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "variable": []
+}

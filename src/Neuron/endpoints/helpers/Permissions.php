@@ -63,9 +63,8 @@ class Permissions {
 	 * Fetch system permissions
 	 **/
 	private function _fetchUserPermissions(): array {
-		$sql = 'SELECT P.Id FROM UserPermission UP INNER JOIN Permission P ON P.Id=UP.PermissionId WHERE UP.UserId=?';
-		$this->DBBridge->fetchMany(sql: $sql, params: [$this->data->parsedToken->userId], bindTo: ['permission']);
-		return $this->DBBridge->numIndexedArray();
+		//implementation here
+		return [];
 	}
 
 
@@ -99,9 +98,8 @@ class Permissions {
 	 *Make sure that the permission/action Id we are getting is valid
 	 **/
 	private function _isValidPermissionId(): bool {
-		$sql = 'SELECT Id FROM Permission WHERE Id=? AND PermissionAction=?';
-		$info = $this->DBBridge->fetch(sql: $sql, params: [$this->data->permissionId,$this->data->action], bindTo: ['permId']);
-		return !empty($info->permId) && $info->permId > 1;
+		//implementation here
+		return true;
 	}
 
 	/**
@@ -110,9 +108,8 @@ class Permissions {
 	 * @param $userId (int) The user Id
 	 **/
 	private function _hasPermission(int $permissionId, int $userId): bool {
-		$sql = 'SELECT Id FROM UserPermission WHERE UserId=? AND PermissionId=?';
-		$id = ($this->DBBridge->fetch(sql: $sql, params: [$userId,$permissionId], bindTo: ['id']))->id??false;
-		return $id !== false;
+		//implementation here
+		return true;
 	}
 
 
@@ -141,8 +138,8 @@ class Permissions {
 	 * Get the permissionId of a given action
 	 **/
 	public function getPermissionId(): int {
-		$sql = 'SELECT Id FROM Permission WHERE PermissionAction=?';
-		return ($this->DBBridge->fetch(sql: $sql, params: [$this->data->action], bindTo: ['id']))->id??0;
+		//implementation here
+		return 1;
 	}
 
 	/**
@@ -178,12 +175,7 @@ class Permissions {
 			return $this->results;
 		}
 		$this->_userPermissions = $this->_fetchUserPermissions();
-		if(!(in_array($this->data->permissionId, $this->_userPermissions))) {
-			$this->results['status'] = false;
-			$this->results['error'] = $error = 'actionNotAllowed';
-			$this->results['message'] = MESSAGES[$error];
-			return $this->results;
-		}
+		//implementation here
 		$this->results['status'] = true;
 		return $this->results;
 	}

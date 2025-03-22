@@ -1,0 +1,129 @@
+{
+  "name": "Neuron",
+  "version": "1",
+  "items": [
+    {
+      "type": "http",
+      "name": "Ping",
+      "seq": 1,
+      "request": {
+        "url": "http://localhost:8000",
+        "method": "GET",
+        "headers": [],
+        "params": [],
+        "body": {
+          "mode": "none",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Test -> Test",
+      "seq": 3,
+      "request": {
+        "url": "http://localhost:8000",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "apikey",
+            "value": "hc6W6#StFyk*NBAO$>VwTY03caE+9S$I)q!B*cQ//b]th$n",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"endpoint\": \"Test\",\n  \"payload\": {\n    \"action\": \"test\",\n    \"data\": {\n      \"info\": {\n        \"client\": \"Bruno\",\n        \"version\": \"0.1\"\n      }\n    }\n  }\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "Test -> Ping",
+      "seq": 2,
+      "request": {
+        "url": "http://localhost:8000",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "apikey",
+            "value": "hc6W6#StFyk*NBAO$>VwTY03caE+9S$I)q!B*cQ//b]th$n",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"endpoint\": \"Test\",\n  \"payload\": {\n    \"action\": \"ping\",\n    \"data\": {\n      \n    }\n  }\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    },
+    {
+      "type": "http",
+      "name": "UserRequests -> Fetch Quick Stats",
+      "seq": 5,
+      "request": {
+        "url": "http://localhost:8000",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "apikey",
+            "value": "hc6W6#StFyk*NBAO$>VwTY03caE+9S$I)q!B*cQ//b]th$n",
+            "enabled": true
+          }
+        ],
+        "params": [],
+        "body": {
+          "mode": "json",
+          "json": "{\n  \"endpoint\": \"UserRequests\",\n  \"payload\": {\n    \"action\": \"fetchQuickStats\",\n    \"data\": {\n      \"publicRequest\": true\n    }\n  }\n}",
+          "formUrlEncoded": [],
+          "multipartForm": []
+        },
+        "script": {},
+        "vars": {},
+        "assertions": [],
+        "tests": "",
+        "auth": {
+          "mode": "none"
+        }
+      }
+    }
+  ],
+  "environments": [],
+  "brunoConfig": {
+    "version": "1",
+    "name": "Neuron",
+    "type": "collection",
+    "ignore": [
+      "node_modules",
+      ".git"
+    ]
+  }
+}

@@ -13,6 +13,7 @@ class AccessToken {
 	private object $db;
 	private object $DBBridge;
 	private string $timestamp;
+	private string $_token;
 
 	function __construct(stdClass $data) {
 		$this->data = $data;
@@ -23,6 +24,7 @@ class AccessToken {
 		loadClass(className: 'DBBridge', parentDir: 'endpoints/helpers');
 		$this->DBBridge = new DBBridge(db: $this->db);
 		$this->timestamp = microtime(true);
+		$this->_token = md5('sample_access_token');
 	}
 
 	function __destruct() {
@@ -33,10 +35,7 @@ class AccessToken {
 	 * Add an access token
 	 **/
 	public function add(): array {
-		$sql = 'INSERT INTO AccessToken VALUES (?,?,?,?,?)';
-		$params = [null,$this->data->userId,$this->data->userTypeId,$this->data->token,$this->timestamp];
-		$added = $this->DBBridge->insert(sql: $sql, params: $params);
-		$this->results['status'] = true;
+		//implementation here
 		return $this->results;
 	}
 
@@ -51,35 +50,24 @@ class AccessToken {
 			$this->results['message'] = MESSAGES[$inputValidity->error];
 			return $this->results;
 		}
-		$sql = 'SELECT Token FROM AccessTokens WHERE UserId=?';
-		$stmt = $this->db->prepare($sql);
-		$stmt->bind_param('i',$this->data->userId);
-		$stmt->execute();
-		$stmt->bind_result($token);
-		$stmt->fetch();
-		$stmt->reset();
-		return $token;
+		return $this->_token;
 	}
 
 	/**
 	 * Parse the access token into required token fields
 	 **/
 	public function parse(): object {
-		$sql = 'SELECT A_T.Token,A_T.UserId,UT.Id,UT.Type FROM AccessToken A_T INNER JOIN UserTypes UT ON UT.Id = A_T.UserTypeId WHERE A_T.Token=?';
-		$bindTo = ['token','userId','userTypeId','userType'];
-		$info = $this->DBBridge->fetch(sql: $sql, params: [$this->data->accessToken], bindTo: $bindTo);
-		if($info->token??false) {
+		//implementation here
+		if(true) {
 			return (object) [
-				'userId' => $info->userId,
-				'userType' => $info->userType,
-				'userTypeId' => $info->userTypeId,
-				'token' => $info->token
+				'userId' => 1,
+				'userType' => 'endUser',
+				'token' => $this->_token
 			];
 		}
 		return (object) [
 			'userId' => false,
 			'userType' => false,
-			'userTypeId' => false,
 			'token' => false
 		];
 	}

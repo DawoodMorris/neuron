@@ -2,3 +2,4 @@
 /vendor
 /src/Neuron/lib/External
 /src/Neuron/lib/vendor
+error_log.log

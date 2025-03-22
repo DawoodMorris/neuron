@@ -93,6 +93,16 @@ class UserRequests extends Authenticator {
 	 * Action implementations start here...
 	 *******************************************************************************************/
 
+	/**
+	 * Fetch quick statistics
+	 **/
+	private function fetchQuickStats(): array {
+		loadClass(className: 'QuickStats', parentDir: 'endpoints/helpers');
+		$this->payload->data->action = $this->payload->action;
+		$QuickStats = new QuickStats(data: $this->payload->data);
+		return $QuickStats->process();
+	}
+
 
 	/**
 	 * Fetch quick help content

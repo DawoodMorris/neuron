@@ -81,6 +81,7 @@ class Neuron {
      **/
     private function loadAuthClasses(): void {
         //load authentication classes here
+        require_once 'endpoints/helpers/Authenticator.php';
     }
 
     /**

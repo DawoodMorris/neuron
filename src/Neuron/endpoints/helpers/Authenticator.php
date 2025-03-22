@@ -1,10 +1,5 @@
 <?php
 /**
-** Bismillahir Rahmaanir Raheem
-** Allah is the Creator and Master of the 
-**/
-
-/**
  * Endpoint: Authenticator
  * Contract: Athenticates users
  * Required Data: What this endpoint needs to complete the required actions
@@ -85,36 +80,29 @@ class Authenticator {
 	 * @param (bool) $loginStatus Whther the login was a success or not
 	 **/
 	private function _recordLogin(bool $loginStatus): void {
-		$sql = 'INSERT INTO LoginHistory VALUES (?,?,?,?)';
-		$this->DBBridge->insert(sql: $sql, params: [null,$this->userId,$loginStatus,date('Y-m-d h:i:s')]);
+		//implementation here
 	}
 
 	/**
 	 * Record login attemmpts
 	 **/
 	private function _recordFailedLoginAttempt(): void {
-		$sql = 'INSERT INTO LoginFailedAttempt VALUES (?,?,?)';
-		$ipAddress = $_SERVER['HTTP_X_FORWARDED_FOR']??$_SERVER['REMOTE_ADDR'];
-		$data = json_encode(['username' => $this->data->username, 'password' => $this->data->password, 'ip' => $ipAddress]);
-		$this->DBBridge->insert(sql: $sql, params: [null,$data,date('Y-m-d h:i:s')]);
+		//implementation here
 	}
 
 	/**
 	 * Update token timestamp
 	 **/
 	private function _updateTokenTimestamp(string $token): void {
-		$sql = 'UPDATE AccessToken SET TimeStamp=? WHERE Token=?';
-		$this->DBBridge->update(sql: $sql, params: [$this->currentTime,$token]);
+		//implementation here
 	}
 
 	/**
 	 * Fetch the user's access token
 	 **/
 	private function _accessToken(): string {
-		$sql = 'SELECT Token FROM AccessToken WHERE Token=?';
-		$accessToken =  $this->DBBridge->fetch(sql: $sql, params: [md5($this->data->username)], bindTo: ['token'])->token??false;
-		if($accessToken) $this->_updateTokenTimestamp(token: $accessToken);
-		return $accessToken;
+		//implementation here
+		return '';
 	}
 
 	/**
@@ -124,26 +112,7 @@ class Authenticator {
 	 * the token. If the current userId and the stored userId are not the same, we update the stored userId with the new userId.
 	 **/
 	private function addAccessToken(): void {
-		$token = md5($this->data->username);
-		//first check if token exists
-		$sql = 'SELECT TokenId,UserId FROM AccessToken WHERE Token=?';
-		$info = ($this->DBBridge->fetch(sql: $sql, params: [$token], bindTo: ['tokenId','userId']));
-		if(empty($info->tokenId)) {
-			$stmt->reset();
-			$sql = 'INSERT INTO AccessToken (TokenId,Token,TypeId,UserId,TimeStamp) VALUES (?,?,?,?,?)';
-			$stmt->bind_param('isiis',$id,$token,$this->userTypeId,$this->userId,$this->currentTime);
-			$this->DBBridge->insert(sql: $sql, params: [null,$token,$this->userTypeId,$this->userId,$this->currentTime]);
-		} else {
-			if($info->userId !== $this->userId) {
-				$stmt->reset();
-				$sql = 'UPDATE AccessToken SET TimeStamp=?,UserId=? WHERE Token=?';
-				$this->DBBridge->update(sql: $sql, params: [$this->currentTime,$this->userId,$token]);
-			} else {
-				$sql = 'UPDATE AccessToken SET TimeStamp=? WHERE Token=?';
-				$this->DBBridge->update(sql: $sql, params: [$this->currentTime,$token]);
-			}
-		}
-		$this->results['accessToken'] = $token;
+		//implementation here
 	}
 
 	/**
@@ -156,27 +125,8 @@ class Authenticator {
 	 * and the property tokenData is the token data (object) when tokenExists is true.
 	 **/
 	private function preAuthenticate(): object {
-		$sql = 'SELECT AccessToken.*,UserTypes.Type FROM AccessToken INNER JOIN ';
-		$sql .= 'UserTypes ON UserTypes.Id = AccessToken.UserTypeId WHERE AccessToken.Token=?';
-		$authResults = ['tokenExists' => false,'sessionExpired' => true,'tokenData' => []];
-		$stmt = $this->db->prepare($sql);
-		$stmt->bind_param('s',$this->data->accessToken);
-		$stmt->execute();
-		$sqlResult = $stmt->get_result()->fetch_all(MYSQLI_ASSOC)[0] ?? false;
-		if($sqlResult && count($sqlResult) > 0) {
-			if($this->getMinutes(prevTime: $sqlResult['Timestamp']) <= MAX_LOGIN_SESS_TIME) {
-				$this->updateTokenTimeStamp();
-				$authResults['tokenExists'] = true;
-				$authResults['sessionExpired'] = false;
-				$authResults['tokenData'] = $sqlResult;
-				$this->_updateTokenTimestamp(token: $this->data->accessToken);
-			} else {
-				$authResults['tokenExists'] = true;
-				$authResults['sessionExpired'] = true;
-				$authResults['tokenData'] = $sqlResult;
-			}
-		}
-		return (object)$authResults;
+		//implementation here
+		return new stdClass;
 	}
 
 	/**
@@ -200,37 +150,14 @@ class Authenticator {
 	 * while logged in
 	 */
 	private function updateTokenTimeStamp(): void {
-		$sql = 'UPDATE AccessToken SET TimeStamp=? WHERE `Token`=?';
-		$stmt = $this->db->prepare($sql);
-		$stmt->bind_param('ss',$this->currentTime,$this->data->accessToken);
-		$stmt->execute();
-		if($stmt->affected_rows > 0)
-		{
-			$this->results['tokenStatus'] = true;
-			$this->results['sessionStatus'] = 'tokenUpdated';
-		} else {
-			$this->results['tokenStatus'] = false;
-			$this->results['sessionStatus'] = 'tokenNotUpdated';
-		}
+		//implementation here
 	}
 
 	/**
 	 * Check the session timeout
 	 **/
 	private function checkSession(): array {
-		$authResults = $this->preAuthenticate();
-		if($authResults->tokenExists && !$authResults->sessionExpired) {
-			$this->results['status'] = true;
-			$this->results['message'] = MESSAGES['authSuccess'];
-		} else if($authResults->tokenExists && $authResults->sessionExpired) {
-			$this->results['status'] = false;
-			$this->results['error'] = 'sessionExpired';
-			$this->results['message'] = MESSAGES['sessionExpired'];
-		} else {
-			$this->results['status'] = false;
-			$this->results['error'] = 'tokenDoesNotExist';
-			$this->results['message'] = MESSAGES['tokenDoesNotExist'];
-		}
+		//implementation here
 		return $this->results;
 	}
 
@@ -245,18 +172,7 @@ class Authenticator {
 	 * Outdate the access token
 	 **/
 	private function outdateTokenTimeStamp(): array {
-		$sql = 'UPDATE AccessToken SET TimeStamp=? WHERE Token=?';
-		$stmt = $this->db->prepare($sql);
-		$timestamp = 0.0;
-		$stmt->bind_param('ds',$timestamp,$this->data->accessToken);
-		$stmt->execute();
-		$pattern = '/Rows matched: 1/';
-		if($stmt->affected_rows > 0 || preg_match($pattern,$this->db->info??'')) {
-			$this->results['status'] = true;
-			$this->results['sessionStatus'] = 'tokenOutdated';
-		} else {
-			$this->results['sessionStatus'] = 'tokenNotUpdated';
-		}
+		//implementation here
 		return $this->results;
 	}
 
@@ -272,21 +188,8 @@ class Authenticator {
 	 * Add a super user
 	 **/
 	private function addSuperUser(): array {
-		$InputValidator = new InputValidator(data: $this->data);
-		$inputValidity = $InputValidator->validate(action: get_class($this).'Validator.'.$this->data->action);
-		if(!($inputValidity->valid)) {
-			$this->results['error'] = $inputValidity->error;
-			$this->results['message'] = MESSAGES[$inputValidity->error];
-			return (array)$this->results;
-		}
-		if($this->data->superUserKey !== Authenticator::SUPER_USER_KEY) {
-			$error = 'invalidSuperUserKey';
-			$this->results['error'] = $error;
-			$this->results['message'] = MESSAGES[$error];
-		}
-		loadClass(className: 'User', parentDir: 'endpoints/helpers');
-		$User = new User(data: $this->data);
-		return $User->addSuperUser();
+		//implementation here
+		return [];
 	}
 
 	/**
@@ -301,39 +204,7 @@ class Authenticator {
 			$this->results['message'] = MESSAGES[$inputValidity->error];
 			return (array)$this->results;
 		}
-		$sql = 'SELECT Id AS LoginId,UserId,Password FROM Login WHERE (Username1=? OR Username2=?) AND Status=?';
-		$active = 1;
-		$info = $this->DBBridge->fetch(sql: $sql, params: [$this->data->username,$this->data->username,$active], bindTo: ['loginId','userId','password']);
-		$this->loginId = $info->loginId??false;
-		$this->userId = $info->userId??false;
-		if(($this->loginId) && ($this->userId)) {
-			if(password_verify($this->data->password, $info->password)) {
-				$this->results['status'] = true;
-				$this->results['message'] = MESSAGES['loginSuccess'];
-				$this->results['accessToken'] = $this->_accessToken();
-				$this->_recordLogin(loginStatus: true);
-			} else {
-				$this->results['error'] = 'incorrectCreds';
-				$this->results['message'] = MESSAGES['incorrectCreds'];
-				$this->_recordLogin(loginStatus: false);
-			}
-		} else {
-			//check if Account is not suspended
-			$sql = 'SELECT UserId,Status FROM Login WHERE (Username1=? OR Username2=?)';
-			$info = $this->DBBridge->fetch(sql: $sql, params: [$this->data->username,$this->data->username], bindTo: ['userId','status']);
-			$this->userId = $info->userId??false;
-			if(($this->userId)) {
-				$this->_recordLogin(loginStatus: false);
-				if(!$info->status) {
-					$this->results['error'] = 'accountSuspended';
-					$this->results['message'] = MESSAGES['accountSuspended'];
-				}
-			} else {
-				$this->results['error'] = 'doesNotExist';
-				$this->results['message'] = MESSAGES['doesNotExist'];
-				$this->_recordFailedLoginAttempt();
-			}
-		}
+		//implementation here
 		return $this->results;
 	}
 
@@ -345,20 +216,7 @@ class Authenticator {
 	 * Authenticate a request,...etc
 	 **/
 	public function authenticate(): array {
-		$authResults = $this->preAuthenticate();
-		if($authResults->tokenExists && !$authResults->sessionExpired) {
-			$this->results['status'] = true;
-			$this->results['message'] = MESSAGES['authSuccess'];
-		} else if($authResults->tokenExists && $authResults->sessionExpired) {
-			$this->results['status'] = false;
-			$this->results['error'] = 'sessionExpired';
-			$this->results['message'] = MESSAGES['sessionExpired'];
-			$this->results['preAuthenticate'] = $authResults;
-		} else {
-			$this->results['status'] = false;
-			$this->results['error'] = 'tokenDoesNotExist';
-			$this->results['message'] = MESSAGES['tokenDoesNotExist'];
-		}
+		//implementation here
 		return $this->results;
 	}
 }

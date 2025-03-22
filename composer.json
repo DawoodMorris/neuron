@@ -1,6 +1,6 @@
 {
     "name": "dawood/neuron",
-    "description": "A framework for building robust backend systems",
+    "description": "A PHP framework for building robust backend systems",
     "type": "project",
     "require": {
         "phpmailer/phpmailer": "dev-master"

@@ -97,6 +97,7 @@ class PermissionsValidator {
 	 * Validate that this action gets the required input
 	 **/
 	public function checkPermission(): object {
+		/*
 		if(!($this->data->permissionId??false)) {
 			$this->results->error = 'missingPermissionId';
 			return $this->results;
@@ -109,6 +110,8 @@ class PermissionsValidator {
 			$this->results->error = 'missingAction';
 			return $this->results;
 		}
+		*/
+		//implementation here
 		$this->results->valid = true;
 		$this->results->error = false;
 		return $this->results;
